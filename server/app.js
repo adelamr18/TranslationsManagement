@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
+const translationsRoutes = require('./routes/translations')
 
 mongoose
   .connect(
@@ -29,6 +30,7 @@ app.use(function (req, res, next) {
 
 
 
+app.use("/api/translations", translationsRoutes);
 
 
 
