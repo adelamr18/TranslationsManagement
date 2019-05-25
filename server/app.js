@@ -1,15 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const translationsRoutes = require("../backend/routes/translations");
 const app = express();
-// const mongoosastic = require('mongoosastic');
-
-
-
-
-
-
 
 mongoose
   .connect(
@@ -37,32 +29,6 @@ app.use(function (req, res, next) {
 
 
 
-// var translationsSchema = new mongoose.Schema({
-//   source: {
-//     type: String
-//   },
-//   target: {
-//     type: String
-//   }
-// });
-// translationsSchema.plugin(mongoosastic, {
-//   hosts: [
-//     'localhost:9200',
-//   ]
-// });
-
-// var translations = mongoose.model('translations', translationsSchema),
-//   stream = translations.synchronize(),
-//   count = 0;
-// stream.on('data', function (err, doc) {
-//   count++;
-// });
-// stream.on('close', function () {
-//   console.log('indexed ' + count + ' documents!');
-// });
-// stream.on('error', function (err) {
-//   console.log(err);
-// });
 
 
 
@@ -73,7 +39,6 @@ app.use(function (req, res, next) {
 
 
 
-// app.use("/api/translations", translationsRoutes);
 
 
 
