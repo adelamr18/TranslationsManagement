@@ -9,9 +9,14 @@
           <button type="button import-button" class="btn btn-success">Import</button>
         </router-link>
       </div>
-      <div class="upload-bar-selection">
-        <UploadBar/>
+      <div>
+        <UploadBar @changeMsg="setMessage"/>
       </div>
+      <b-card class="uploaded-history-files" v-if="isFileSelected">
+        <b-alert v-bind:key="value.id"  v-for="value in fileNames " show variant="primary">
+          <a class="alert-link">{{value.fileName}}</a>
+        </b-alert>
+      </b-card>
     </div>
   </div>
 </template>
@@ -19,8 +24,26 @@
 import UploadBar from "../shared/components/upload-bar";
 export default {
   name: "ImportTranslationPage",
+  data() {
+    return {
+      fileNames: [],
+      id: 0,
+      isFileSelected: false
+    };
+  },
   components: {
     UploadBar
+  },
+  methods: {
+    setMessage(name) {
+      if (name) {
+        this.isFileSelected = true;
+        this.fileNames.push({
+          id: this.id++,
+          fileName: name
+        });
+      }
+    }
   },
   props: [""]
 };
@@ -32,5 +55,9 @@ export default {
 }
 .home-button {
   margin-right: 0.75rem;
+}
+.uploaded-history-files {
+  margin-top: 4rem;
+  margin-right: 1.5rem;
 }
 </style>

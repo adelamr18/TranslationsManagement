@@ -10,7 +10,7 @@
         </router-link>
       </div>
       <SearchBar v-on:pass-text="passText"/>
-      <TranslationsTable v-bind:inputText="inputText"/>
+      <TranslationsTable :items="items"  v-bind:inputText="inputText"/>
     </div>
   </div>
 </template>
@@ -24,12 +24,27 @@ export default {
     SearchBar,
     TranslationsTable
   },
+     mounted(){
+       TranslationsService
+      .getAllFiles()
+      .then(result => {
+         result.data.map((element) => {
+         delete element._id
+      });
+        this.items = result.data;
+        console.log(this.items,'after in parent')
+      })
+      .catch(error => {
+        alert(error);
+      });
+    },
   props: {},
   data() {
     return {
       inputText: [],
       id: 0,
-      text: ""
+      text: "",
+      items:[]
     };
   },
   methods: {
@@ -38,14 +53,11 @@ export default {
         text:q
       })
       this.id++;
-      // const body = {
-      //   text
-      // }
       const body = {
         q
       }
       TranslationsService.sendSearchedTranslation(body).then(res => {
-        console.log(res,'heyyyyyyyyyyyyyyyyyyyy');
+        this.items= res.data;
       });
     }
   }

@@ -19,24 +19,12 @@
 <script>
 import translationService from "../services/translations-service";
 export default {
-  created() {
-    translationService
-      .getAllFiles()
-      .then(result => {
-        this.items = result.data;
-      })
-      .catch(error => {
-        alert(error);
-      });
-  },
   name: "TranslationsTable",
-  props: ["inputText"],
+  props: ["inputText", "items"],
   methods: {},
   components: {},
   data() {
-    return {
-      items: []
-    };
+    return {};
   }
 };
 </script>
