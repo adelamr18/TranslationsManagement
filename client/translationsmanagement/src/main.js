@@ -8,10 +8,13 @@ import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router'
 import TranslationsDashboard from '../src/app/translations-dashboard/translations-dashboard.vue';
 import ImportTranslationPage from '../src/app/import-translations/import-translations.vue';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faFile } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
-
-
+library.add(faFile)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
 Vue.config.devtools = true;
 Vue.use(VueRouter)

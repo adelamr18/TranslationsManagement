@@ -9,7 +9,7 @@
           <button type="button import-button" class="btn btn-success">Import</button>
         </router-link>
       </div>
-      <SearchBar v-on:pass-text="passText"/>
+      <SearchBar v-on:default-values="getDefaultValues"  v-bind:inputText="inputText" v-on:pass-text="passText" />
       <TranslationsTable :items="items"  v-bind:inputText="inputText"/>
     </div>
   </div>
@@ -32,7 +32,6 @@ export default {
          delete element._id
       });
         this.items = result.data;
-        console.log(this.items,'after in parent')
       })
       .catch(error => {
         alert(error);
@@ -59,9 +58,23 @@ export default {
       TranslationsService.sendSearchedTranslation(body).then(res => {
         this.items= res.data;
       });
+    },
+    getDefaultValues(getDefaultTableValues){
+if(getDefaultTableValues){
+      TranslationsService
+      .getAllFiles()
+      .then(result => {
+         result.data.map((element) => {
+         delete element._id
+      });
+        this.items = result.data;
+      })
+      .catch(error => {
+        alert(error);
+      });
     }
   }
-};
+}};
 </script>
 <style scoped>
 .navigation-buttons-container {

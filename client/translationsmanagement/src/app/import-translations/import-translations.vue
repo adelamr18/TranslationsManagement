@@ -12,11 +12,20 @@
       <div>
         <UploadBar @changeMsg="setMessage"/>
       </div>
-      <b-card class="uploaded-history-files" v-if="isFileSelected">
-        <b-alert v-bind:key="value.id"  v-for="value in fileNames " show variant="primary">
-          <a class="alert-link">{{value.fileName}}</a>
-        </b-alert>
-      </b-card>
+
+      <div class="uploaded-history-files" v-if="isFileSelected">
+        <div id="upload-history-text">File uploads history</div>
+        <div
+          class="file-uploaded-with-name-container"
+          v-bind:key="value.id"
+          v-for="value in fileNames "
+        >
+          <div class="uploaded-file-icon">
+            <font-awesome-icon icon="file"/>
+          </div>
+          <div class="uploaded-file-name">{{value.fileName}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -57,7 +66,24 @@ export default {
   margin-right: 0.75rem;
 }
 .uploaded-history-files {
-  margin-top: 4rem;
-  margin-right: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-right: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.file-uploaded-with-name-container {
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+}
+#upload-history-text {
+  margin-top: 1rem;
+}
+.svg-inline--fa.fa-w-12 {
+  font-size: 1.5rem !important;
 }
 </style>

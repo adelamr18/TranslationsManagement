@@ -1,8 +1,17 @@
-const mongosoe = require("mongoose");
+const mongoose = require("mongoose");
+const mongoosastic = require('mongoosastic');
+var Schema = mongoose.Schema;
 
-const postSchema =   mongosoe.Schema({
-  source: { type: String, required: false },
-  target: { type: String, required: false}
+
+const PostSchema = new Schema({
+  source: String,
+  target: String
 });
+PostSchema.plugin(mongoosastic, {
+  hosts: [
+    'localhost:9200'
+  ]
+})
+module.exports = mongoose.model('Translation', PostSchema);
 
-module.exports = mongosoe.model('Translation',postSchema);
+

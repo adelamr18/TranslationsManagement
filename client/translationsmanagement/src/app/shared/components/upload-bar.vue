@@ -30,7 +30,6 @@ export default {
   methods: {
     submitFile() {
       var files = document.getElementById("selectFiles").files;
-      // console.log(files[0].name)
       this.$emit("changeMsg", files[0].name);
       if (files.length <= 0) {
         return false;

@@ -3,10 +3,21 @@
     <div class="search-bar-children">
       <div class="search-text">Source</div>
       <div class="search-bar">
-        <input class="form-control" v-model="inputText" type="text" placeholder="Search for your article" aria-label="Search">
+        <input
+          @change="checkTypedData"
+          class="form-control"
+          v-model="inputText"
+          type="text"
+          placeholder="Search for your article"
+          aria-label="Search"
+        >
       </div>
       <div class="search-button">
-        <button type="button home-button" class="btn btn-primary" @click ="$emit('pass-text',inputText)">Search</button>
+        <button
+          type="button home-button"
+          class="btn btn-primary"
+          @click="$emit('pass-text',inputText)"
+        >Search</button>
       </div>
     </div>
   </div>
@@ -16,13 +27,21 @@ export default {
   name: "SearchBar",
   props: ["count"],
   methods: {
-
-},
-    data() {
-    return {
-       inputText:''
+    checkTypedData() {
+      if (!this.inputText) {
+        console.log('yes the text is empty')
+        this.getDefaultValues = true;
+        this.$emit('default-values',getDefaultValues)
       }
-}};
+    }
+  },
+  data() {
+    return {
+      inputText: "",
+      getDefaultValues: false
+    };
+  }
+};
 </script>
 <style scoped>
 .search-bar-children {

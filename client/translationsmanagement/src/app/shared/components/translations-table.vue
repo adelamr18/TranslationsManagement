@@ -8,8 +8,14 @@
           </div>
         </b-tab>
         <b-tab title="History">
-          <div v-bind:key="value.id" v-for="value in inputText">
-            <b-card>{{value.text}}</b-card>
+          <div  class="search-values-parent-container">
+            <b-card title="Search History" class="search-values-child-container">
+              <div
+                v-bind:key="value.id"
+                v-for="value in inputText"
+                class="search-history-values"
+              >{{value.text}}</div>
+            </b-card>
           </div>
         </b-tab>
       </b-tabs>
@@ -20,7 +26,7 @@
 import translationService from "../services/translations-service";
 export default {
   name: "TranslationsTable",
-  props: ["inputText", "items"],
+  props: ["inputText", "items","showHistoryCard"],
   methods: {},
   components: {},
   data() {
@@ -37,5 +43,18 @@ export default {
 }
 .table-container {
   margin-top: -1rem;
+}
+.search-values-child-container {
+  width: 50%;
+  margin: auto;
+}
+.card-title {
+  text-align: center;
+}
+.search-history-values {
+  margin-top: 1rem;
+}
+.search-values-parent-container {
+  margin-top: 2rem;
 }
 </style>
