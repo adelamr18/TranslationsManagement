@@ -31,7 +31,7 @@ export default {
       if (!this.inputText) {
         console.log('yes the text is empty')
         this.getDefaultValues = true;
-        this.$emit('default-values',getDefaultValues)
+        this.$emit('default-values',this.getDefaultValues)
       }
     }
   },

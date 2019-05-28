@@ -1,23 +1,35 @@
 <template>
-  <!-- <div class="upload-container" >
-     <div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFileLang" lang="pl-Pl">
-  <label class="custom-file-label" for="customFileLang"></label>
-</div>
-  </div>-->
-  <div class="upload-content">
-    <div class="upload-text">Upload file</div>
-    <div class="upload-bar">
-      <b-form-file
-        v-model="file"
-        id="selectFiles"
-        :state="Boolean(file)"
-        placeholder="Choose a file..."
-        drop-placeholder="Drop file here..."
-      ></b-form-file>
+  <div class="import-container">
+    <div class="upload-content">
+      <div class="upload-text">Upload file</div>
+      <div class="upload-bar">
+        <b-form-file
+          v-model="file"
+          id="selectFiles"
+          :state="Boolean(file)"
+          placeholder="Choose a file..."
+          drop-placeholder="Drop file here..."
+          @change="checkFileFormat "
+        ></b-form-file>
+      </div>
+      <div class="submit-upload">
+        <button
+          :disabled="isWrongUploadFormat"
+          class="btn btn-primary"
+          @click="submitFile(true)"
+          id="import"
+        >Import</button>
+      </div>
     </div>
-    <div class="submit-upload">
-      <button class="btn btn-primary" @click="submitFile" id="import">Import</button>
+    <div class="alert-container">
+      <b-alert v-if="isWrongUploadFormat" show variant="danger">File type must be .json</b-alert>
+    </div>
+    <div class="backend-alert-container">
+      <b-alert
+        v-if="showBackendErrorAlert"
+        show
+        variant="danger"
+      >Something went wrong while uploading a file</b-alert>
     </div>
   </div>
 </template>
@@ -28,18 +40,42 @@ export default {
   name: "UploadBar",
   props: [""],
   methods: {
-    submitFile() {
-      var files = document.getElementById("selectFiles").files;
-      this.$emit("changeMsg", files[0].name);
-      if (files.length <= 0) {
-        return false;
+    submitFile(append = false) {
+      if (!this.isWrongUploadFormat) {
+        this.toastCount++;
+        this.$bvToast.toast(`You have successfully uploaded a json file`, {
+          title: "Success",
+          autoHideDelay: 5000,
+          appendToast: append
+        });
+        var files = document.getElementById("selectFiles").files;
+        this.$emit("changeMsg", files[0].name);
+        if (files.length <= 0) {
+          return false;
+        }
+        this.sendFilesToBackend();
       }
+    },
+    checkFileFormat() {
+      var files = document.getElementById("selectFiles").files;
+      this.showAlert = true;
+      var parts = files[0].name.split(".");
+      if (parts[parts.length - 1].toLowerCase() === "json") {
+        this.isWrongUploadFormat = false;
+      } else {
+        this.isWrongUploadFormat = true;
+      }
+    },
+    sendFilesToBackend() {
+      var files = document.getElementById("selectFiles").files;
       var fr = new FileReader();
       fr.onload = function(e) {
         var result = JSON.parse(e.target.result);
         TranslationService.sendFiles(JSON.stringify(result, null, 2))
           .then(res => {})
-          .catch(error => {});
+          .catch(error => {
+            this.showBackendErrorAlert = true;
+          });
       };
       fr.readAsText(files.item(0));
     }
@@ -50,7 +86,11 @@ export default {
       error: false,
       message: "",
       allowSubmit: false,
-      fileNames: []
+      fileNames: [],
+      isWrongUploadFormat: false,
+      toastCount: 0,
+      showErrorAlert: false,
+      showBackendErrorAlert: false
     };
   }
 };
@@ -96,5 +136,13 @@ form {
 .custom-file-input.is-invalid,
 .custom-file-label {
   border-color: black !important;
+}
+.alert-container {
+  margin-top: 2rem;
+  margin-right: 2rem;
+}
+.backend-alert-container {
+  margin-top: 2rem;
+  margin-right: 2rem;
 }
 </style>

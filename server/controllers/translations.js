@@ -22,7 +22,7 @@ exports.getAllTranslations = (req, res, next) => {
   Translation.find({}, function (error, translations) {
     if (error) {
       return res.status(401).json({
-        message: 'someting went wrong'
+        message: 'Someting went wrong and all translations couldnt be retrieved'
       })
     }
     return res.json(translations)
@@ -32,12 +32,13 @@ exports.sendFiles = (req, res, next) => {
   const data = req.body;
   Translation.collection.insertMany(data, function (err, docs) {
     if (err) {
-      return console.error(err);
-    } else {
-      res.status(200).json({
-        message: 'added translations'
+      return res.status(401).json({
+        message: 'Could not send the specified file to the database'
       })
-      console.log("Multiple documents inserted to Collection");
+    } else {
+      return res.status(200).json({
+        message: 'added translations to database'
+      })
     }
   });
 };
@@ -52,14 +53,14 @@ exports.searchForFiles = (req, res, next) => {
     size: 3
   }, function (error, results) {
     if (error) {
-      alert(error)
+      return res.status(401).json({
+        message: 'Could not search for the specified file'
+      })
     }
-    console.log(results, ' --------------------------------------------')
     var data = results.hits.hits.map(function (hit) {
       return hit._source;
     })
-    console.log(data, 'the data in node.js')
-    res.json(data);
+    return res.status(200).json(data);
   })
 
 }

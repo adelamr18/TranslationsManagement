@@ -10,7 +10,7 @@
         </router-link>
       </div>
       <div>
-        <UploadBar @changeMsg="setMessage"/>
+        <UploadBar @changeMsg="updateFilesHistory"/>
       </div>
 
       <div class="uploaded-history-files" v-if="isFileSelected">
@@ -44,7 +44,7 @@ export default {
     UploadBar
   },
   methods: {
-    setMessage(name) {
+    updateFilesHistory(name) {
       if (name) {
         this.isFileSelected = true;
         this.fileNames.push({

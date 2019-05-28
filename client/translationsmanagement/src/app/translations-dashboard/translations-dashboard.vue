@@ -9,8 +9,23 @@
           <button type="button import-button" class="btn btn-success">Import</button>
         </router-link>
       </div>
-      <SearchBar v-on:default-values="getDefaultValues"  v-bind:inputText="inputText" v-on:pass-text="passText" />
-      <TranslationsTable :items="items"  v-bind:inputText="inputText"/>
+      <SearchBar
+        v-on:default-values="getDefaultValues"
+        v-bind:inputText="inputText"
+        v-on:pass-text="passText"
+      />
+      <TranslationsTable
+        :showErrorAlert="showErrorAlert"
+        :items="items"
+        v-bind:inputText="inputText"
+      />
+      <div class="backend-alert-container">
+        <b-alert
+          v-if="showSearchBackendError"
+          show
+          variant="danger"
+        >Something went wrong while uploading a file</b-alert>
+      </div>
     </div>
   </div>
 </template>
@@ -24,57 +39,67 @@ export default {
     SearchBar,
     TranslationsTable
   },
-     mounted(){
-       TranslationsService
-      .getAllFiles()
+  mounted() {
+    TranslationsService.getAllFiles()
       .then(result => {
-         result.data.map((element) => {
-         delete element._id
-      });
+        result.data.map(element => {
+          delete element._id;
+        });
         this.items = result.data;
       })
       .catch(error => {
-        alert(error);
+        if(error){
+        this.showErrorAlert = true;
+        }
       });
-    },
+  },
   props: {},
   data() {
     return {
       inputText: [],
       id: 0,
-      text: "",
-      items:[]
+      text: '',
+      items: [],
+      showErrorAlert: false,
+      showSearchBackendError: false
     };
   },
   methods: {
     passText(q) {
-       this.inputText.push({
-        text:q
-      })
+      this.inputText.push({
+        text: q
+      });
       this.id++;
       const body = {
         q
-      }
-      TranslationsService.sendSearchedTranslation(body).then(res => {
-        this.items= res.data;
-      });
+      };
+      this.sendSearchedTranslations(body);
     },
-    getDefaultValues(getDefaultTableValues){
-if(getDefaultTableValues){
-      TranslationsService
-      .getAllFiles()
-      .then(result => {
-         result.data.map((element) => {
-         delete element._id
-      });
-        this.items = result.data;
-      })
-      .catch(error => {
-        alert(error);
-      });
+    getDefaultValues(getDefaultTableValues) {
+      if (getDefaultTableValues) {
+        TranslationsService.getAllFiles()
+          .then(result => {
+            result.data.map(element => {
+              delete element._id;
+            });
+            this.items = result.data;
+          })
+          .catch(error => {
+            this.showErrorAlert = true;
+          });
+      }
+    },
+    sendSearchedTranslations(body) {
+      TranslationsService.sendSearchedTranslation(body)
+        .then(res => {
+          this.items = res.data;
+        })
+        .catch(error => {
+          this.showSearchBackendError = true;
+        });
     }
   }
-}};
+};
 </script>
 <style scoped>
 .navigation-buttons-container {
@@ -83,5 +108,9 @@ if(getDefaultTableValues){
 }
 .home-button {
   margin-right: 0.75rem;
+}
+.backend-alert-container {
+  margin-top: 2rem;
+  margin-right: 2rem;
 }
 </style>
