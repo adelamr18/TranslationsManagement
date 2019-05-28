@@ -29,7 +29,6 @@ export default {
   methods: {
     checkTypedData() {
       if (!this.inputText) {
-        console.log('yes the text is empty')
         this.getDefaultValues = true;
         this.$emit('default-values',this.getDefaultValues)
       }
