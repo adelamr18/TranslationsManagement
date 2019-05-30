@@ -1,29 +1,33 @@
 <template>
   <div>
-    <div class="navigation-buttons-container">
-      <div class="navigation-buttons-children">
-        <router-link to="/">
-          <button type="button home-button" class="btn btn-primary">Home</button>
-        </router-link>
-        <router-link to="/import">
-          <button type="button import-button" class="btn btn-success">Import</button>
-        </router-link>
-      </div>
-      <div>
-        <UploadBar @changeMsg="updateFilesHistory"/>
-      </div>
+    <b-nav tabs class="nav-bar-cont">
+      <b-nav-item>
+        <router-link
+          :to="{ name: 'TranslationsDashboard', params: { uploads: this.fileNames} }"
+        >Home</router-link>
+      </b-nav-item>
+      <b-nav-item id="import-tab">
+        <router-link :to="{ name: 'ImportTranslationPage'}">Import</router-link>
+      </b-nav-item>
+    </b-nav>
+    <div class="upload-history-container">
+      <div class="navigation-buttons-container">
+        <div>
+          <UploadBar @upload-history="updateFilesHistory"/>
+        </div>
 
-      <div class="uploaded-history-files" v-if="isFileSelected">
-        <div id="upload-history-text">File uploads history</div>
-        <div
-          class="file-uploaded-with-name-container"
-          v-bind:key="value.id"
-          v-for="value in fileNames "
-        >
-          <div class="uploaded-file-icon">
-            <font-awesome-icon icon="file"/>
+        <div class="uploaded-history-files" v-if="isFileSelected">
+          <div id="upload-history-text">File uploads history</div>
+          <div
+            class="file-uploaded-with-name-container"
+            v-bind:key="value.id"
+            v-for="value in fileNames "
+          >
+            <div class="uploaded-file-icon">
+              <font-awesome-icon icon="file"/>
+            </div>
+            <div class="uploaded-file-name">{{value.fileName}}</div>
           </div>
-          <div class="uploaded-file-name">{{value.fileName}}</div>
         </div>
       </div>
     </div>
@@ -37,11 +41,20 @@ export default {
     return {
       fileNames: [],
       id: 0,
-      isFileSelected: false
+      isFileSelected: false,
+      transferredResults: [],
     };
   },
   components: {
     UploadBar
+  },
+  mounted() {
+    if (this.$route.params.transferredUploads || !this.$route.params.showHistory) {
+      var results = this.$route.params.transferredUploads;
+      for (let key in results) {
+        this.updateFilesHistory(results[key].fileName);
+      }
+    }
   },
   methods: {
     updateFilesHistory(name) {
@@ -54,6 +67,7 @@ export default {
       }
     }
   },
+
   props: [""]
 };
 </script>
@@ -77,13 +91,21 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin-top: 2rem;
   margin-left: 1.5rem;
 }
 #upload-history-text {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  display: block;
+  width: 100%;
 }
 .svg-inline--fa.fa-w-12 {
-  font-size: 1.5rem !important;
+  font-size: 1.5rem;
+}
+path {
+  fill: #bf9c8f;
+}
+.upload-history-container {
+  font: 400 17px/1.8 Lato, sans-serif;
 }
 </style>

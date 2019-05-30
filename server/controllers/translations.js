@@ -29,18 +29,20 @@ exports.getAllTranslations = (req, res, next) => {
   })
 };
 exports.sendFiles = (req, res, next) => {
-  const data = req.body;
-  Translation.collection.insertMany(data, function (err, docs) {
-    if (err) {
-      return res.status(401).json({
-        message: 'Could not send the specified file to the database'
-      })
-    } else {
-      return res.status(200).json({
-        message: 'added translations to database'
-      })
-    }
-  });
+  if(req.body !=='[{}]'){
+    const data = req.body;
+    Translation.collection.insertMany(data, function (err, docs) {
+      if (err) {
+        return res.status(401).json({
+          message: 'Could not send the specified file to the database'
+        })
+      } else {
+        return res.status(200).json({
+          message: 'added translations to database'
+        })
+      }
+    });
+  }
 };
 
 exports.searchForFiles = (req, res, next) => {

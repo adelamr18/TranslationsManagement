@@ -13,6 +13,7 @@ import { faFile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
+
 library.add(faFile)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
@@ -20,13 +21,16 @@ Vue.config.devtools = true;
 Vue.use(VueRouter)
 
 
+
 const routes = [{
   path: '/',
-  component: TranslationsDashboard
+  component: TranslationsDashboard,
+  name:"TranslationsDashboard"
 },
 {
   path: '/import',
-  component: ImportTranslationPage
+  name:"ImportTranslationPage",
+  component: ImportTranslationPage,
 }
 ]
 const router = new VueRouter({
