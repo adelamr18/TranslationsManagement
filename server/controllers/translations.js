@@ -10,10 +10,8 @@ stream.on('data', function (e, k) {
   count++;
 })
 stream.on('close', function () {
-  console.log('indexed' + count + 'documents')
 })
 stream.on('error', function (err) {
-  console.log(error)
 })
 
 
