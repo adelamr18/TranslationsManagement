@@ -60,6 +60,10 @@ export default {
     }
   },
   methods: {
+      /**
+* This is the updateFilesHistory function that adds previously uploaded files to the history content area below the import button
+* @param name This is the file name which is sent by the searchbar component
+*/
     updateFilesHistory(name) {
       if (name) {
         this.isFileSelected = true;

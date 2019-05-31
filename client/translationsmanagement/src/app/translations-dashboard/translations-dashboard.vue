@@ -99,7 +99,11 @@ export default {
           });
       }
     },
-    sendSearchedTranslations(body) {
+         /**
+* This is the sendSearchedTranslations function that sends the typed values in the search bar to the database
+to mmake a post request and recieve all translations matching the value that is typed in the search bar
+@param body this is the values typed in the search bar
+*/  sendSearchedTranslations(body) {
       TranslationsService.sendSearchedTranslation(body)
         .then(res => {
           this.items = res.data;

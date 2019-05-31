@@ -47,7 +47,6 @@ export default {
       this.searchHistoryText = 'Search History';
     }
   },
-  components: {},
   data() {
     return {
       resultsErrorRetrieving:'',

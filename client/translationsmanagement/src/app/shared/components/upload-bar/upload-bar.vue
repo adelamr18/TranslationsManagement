@@ -56,6 +56,10 @@ export default {
         this.isWrongUploadFormat = true;
       }
     },
+      /**
+* This is the sendFilesToBackend function that posts uploaded json data to the backend after it is made sure
+that the to be sent files is of type json
+*/
     sendFilesToBackend() {
       var self = this;
       var files = document.getElementById("selectFiles").files;

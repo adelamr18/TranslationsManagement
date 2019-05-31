@@ -29,6 +29,10 @@ export default {
     this.defineSearchBarTexts();
   },
   methods: {
+         /**
+* This is the checkTypedData function that checks if the input search field for the translations is empty
+when the user focuses out of the search field and if it empty an event is sent to fetch default translations values
+*/
     checkTypedData() {
       if (!this.inputText) {
         this.getDefaultValues = true;
