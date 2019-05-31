@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import UploadBar from "../shared/components/upload-bar";
+import UploadBar from "../shared/components/upload-bar/upload-bar";
 export default {
   name: "ImportTranslationPage",
   data() {
@@ -49,7 +49,7 @@ export default {
     UploadBar
   },
   mounted() {
-    if (this.$route.params.transferredUploads || !this.$route.params.showHistory) {
+    if (this.$route.params.transferredUploads ) {
       var results = this.$route.params.transferredUploads;
       for (let key in results) {
         this.updateFilesHistory(results[key].fileName);

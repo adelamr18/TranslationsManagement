@@ -33,8 +33,8 @@
   </div>
 </template>
 <script>
-import SearchBar from "../../app/shared/components/search-bar";
-import TranslationsTable from "../../app/shared/components/translations-table";
+import SearchBar from "../../app/shared/components/search-bar/search-bar";
+import TranslationsTable from "../../app/shared/components/translations-table/translations-table";
 import TranslationsService from "../shared/services/translations-service";
 export default {
   name: "TranslationsDashboard",

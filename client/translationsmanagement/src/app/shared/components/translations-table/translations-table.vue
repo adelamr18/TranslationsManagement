@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import translationService from "../services/translations-service";
+import TranslationService from "../../services/translations-service";
 export default {
   name: "TranslationsTable",
   props: ["inputText", "items", "showHistoryCard", "showErrorAlert"],

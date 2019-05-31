@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import TranslationService from "../services/translations-service";
+import TranslationService from "../../services/translations-service";
 export default {
   name: "UploadBar",
   props: [""],
@@ -105,7 +105,7 @@ export default {
       toastCount: 0,
       showErrorAlert: false,
       showBackendErrorAlert: false,
-      appendToast: true,
+      appendToast: true
     };
   }
 };
