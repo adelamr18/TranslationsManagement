@@ -21,3 +21,6 @@ yarn-error.log*
 /client/translationsmanagement/config
 /client/translationsmanagement/coverage
 
+
+
+.gitignore

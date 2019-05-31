@@ -8,4 +8,5 @@ To run the project and the backend server
 
 
 
-Remark: please note that when running the backend unit tests the translations results will be cleared and the mongodb database will not contain any translations 
+Remark: 1- please note that when running the backend unit tests the translations results will be cleared and the mongodb database will not contain any translations 
+2- to ensure that elastic search will work locally on your laptop please when running the server by typing nodemon server.js download the elastic search library on your laptop then navigate to bin on terminal then open elasticsearch.bat and leave it open unil it is done while the server is running then close it
