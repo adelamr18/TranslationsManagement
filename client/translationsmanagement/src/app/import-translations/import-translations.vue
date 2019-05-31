@@ -4,10 +4,10 @@
       <b-nav-item>
         <router-link
           :to="{ name: 'TranslationsDashboard', params: { uploads: this.fileNames} }"
-        >Home</router-link>
+        >{{homeLink}}</router-link>
       </b-nav-item>
       <b-nav-item id="import-tab">
-        <router-link :to="{ name: 'ImportTranslationPage'}">Import</router-link>
+        <router-link :to="{ name: 'ImportTranslationPage'}">{{importLink}}</router-link>
       </b-nav-item>
     </b-nav>
     <div class="upload-history-container">
@@ -43,12 +43,15 @@ export default {
       id: 0,
       isFileSelected: false,
       transferredResults: [],
+      homeLink:'',
+      importLink:''
     };
   },
   components: {
     UploadBar
   },
   mounted() {
+ this.defineLinksText();
     if (this.$route.params.transferredUploads ) {
       var results = this.$route.params.transferredUploads;
       for (let key in results) {
@@ -65,7 +68,10 @@ export default {
           fileName: name
         });
       }
-    }
+    },
+    defineLinksText(){
+      this.homeLink = 'Home';
+      this.importLink = 'Import'    }
   },
 
   props: [""]

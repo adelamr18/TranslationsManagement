@@ -2,12 +2,12 @@
   <div>
     <b-nav tabs class="nav-bar-cont">
       <b-nav-item>
-        <router-link to="/">Home</router-link>
+        <router-link to="/">{{homeLink}}</router-link>
       </b-nav-item>
       <b-nav-item id="import-tab">
         <router-link
           :to="{ name: 'ImportTranslationPage', params: { transferredUploads: this.uploads } }"
-        >Import</router-link>
+        >{{importLink}}</router-link>
       </b-nav-item>
     </b-nav>
     <div class="navigation-buttons-container">
@@ -27,7 +27,7 @@
           v-if="showSearchBackendError"
           show
           variant="danger"
-        >Something went wrong while uploading a file</b-alert>
+        >{{internetConnectionAlert}}</b-alert>
       </div>
     </div>
   </div>
@@ -43,6 +43,8 @@ export default {
     TranslationsTable
   },
   mounted() {
+    this.defineLinksText();
+    this.defineAlertsText();
     this.uploads = this.$route.params.uploads;
     TranslationsService.getAllFiles()
       .then(result => {
@@ -66,7 +68,10 @@ export default {
       items: [],
       showErrorAlert: false,
       showSearchBackendError: false,
-      uploads: []
+      uploads: [],
+      homeLink:'',
+      importLink:'',
+      internetConnectionAlert:''
     };
   },
   methods: {
@@ -98,10 +103,18 @@ export default {
       TranslationsService.sendSearchedTranslation(body)
         .then(res => {
           this.items = res.data;
+          console.log(res.data);
         })
         .catch(error => {
           this.showSearchBackendError = true;
         });
+    },
+    defineLinksText(){
+      this.homeLink = 'Home';
+      this.importLink = 'Import'
+    },
+    defineAlertsText(){
+      this.internetConnectionAlert= 'Something went wrong while uploading a file';
     }
   }
 };

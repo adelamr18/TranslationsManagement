@@ -10,7 +10,7 @@
                 v-if="showErrorAlert"
                 show
                 variant="danger"
-              >Something went wrong while retrieving results</b-alert>
+              >{{resultsErrorRetrieving}}</b-alert>
             </div>
           </div>
         </b-tab>
@@ -35,10 +35,24 @@ import TranslationService from "../../services/translations-service";
 export default {
   name: "TranslationsTable",
   props: ["inputText", "items", "showHistoryCard", "showErrorAlert"],
-  methods: {},
+  mounted(){
+    this.defineTextError();
+    this.defineSearchHistory()
+  },
+  methods: {
+    defineTextError(){
+      this.resultsErrorRetrieving = 'Something went wrong while retrieving results'
+    },
+    defineSearchHistory(){
+      this.searchHistoryText = 'Search History';
+    }
+  },
   components: {},
   data() {
-    return {};
+    return {
+      resultsErrorRetrieving:'',
+      searchHistoryText:''
+    };
   }
 };
 </script>

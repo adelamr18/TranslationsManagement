@@ -1,14 +1,13 @@
 <template>
   <div class="import-container">
     <div class="upload-content">
-      <div class="upload-text">Upload file</div>
+      <div class="upload-text">{{uploadText}}</div>
       <div class="upload-bar">
         <b-form-file
           v-model="file"
           id="selectFiles"
           :state="Boolean(file)"
-          placeholder="Choose a file..."
-          drop-placeholder="Drop file here..."
+          :placeholder=chooseFileText
           @change="checkFileFormat "
         ></b-form-file>
       </div>
@@ -18,18 +17,14 @@
           class="btn btn-primary"
           @click="submitFile(true)"
           id="import"
-        >Import</button>
+        >{{importText}}</button>
       </div>
     </div>
     <div class="alert-container">
-      <b-alert v-if="isWrongUploadFormat" show variant="danger">File type must be .json</b-alert>
+      <b-alert v-if="isWrongUploadFormat" show variant="danger">{{fileTypeAlert}}</b-alert>
     </div>
     <div class="backend-alert-container">
-      <b-alert
-        v-if="showAlert()"
-        show
-        variant="danger"
-      >Something went wrong while uploading a file as there is no internet connection</b-alert>
+      <b-alert v-if="showAlert()" show variant="danger">{{uploadFileAlert}}</b-alert>
     </div>
   </div>
 </template>
@@ -38,6 +33,10 @@ import TranslationService from "../../services/translations-service";
 export default {
   name: "UploadBar",
   props: [""],
+  mounted() {
+    this.defineFileUploadErrors();
+    this.defineUploadTexts();
+  },
   methods: {
     submitFile() {
       if (!this.isWrongUploadFormat && !this.showBackendErrorAlert) {
@@ -79,7 +78,7 @@ export default {
       if (!this.showBackendErrorAlert) {
         var files = document.getElementById("selectFiles").files;
         this.$emit("upload-history", files[0].name);
-       if (files.length <= 0) {
+        if (files.length <= 0) {
           return false;
         }
         this.toastCount++;
@@ -92,6 +91,16 @@ export default {
     },
     showAlert: function() {
       return this.showBackendErrorAlert;
+    },
+    defineFileUploadErrors() {
+      this.fileTypeAlert = "File type must be .json";
+      this.uploadFileAlert =
+        "Something went wrong while uploading a file as there is no internet connection";
+    },
+    defineUploadTexts() {
+      this.uploadText = "Upload file";
+      this.importText = "Import";
+      this.chooseFileText = "Choose a file...";
     }
   },
   data() {
@@ -105,7 +114,12 @@ export default {
       toastCount: 0,
       showErrorAlert: false,
       showBackendErrorAlert: false,
-      appendToast: true
+      appendToast: true,
+      fileTypeAlert: "",
+      uploadFileAlert: "",
+      uploadText: "",
+      importText: "",
+      chooseFileText: ""
     };
   }
 };
